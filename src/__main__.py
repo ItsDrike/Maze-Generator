@@ -66,15 +66,17 @@ class Game:
             for col in range(self.cols):
                 self.cells.append(Cell(self.screen, row, col))
 
-        self.current_cell = self.cells[18]
+        self.current_cell = self.cells[0]
 
         # Main game loop
         while self.running:
             self.update_screen()
+
             self.current_cell.visited = True
             neighbor = self.current_cell.check_neighbors(self.cells)
             if neighbor:
                 neighbor.visited = True
+                neighbor.remove_wall(self.current_cell)
                 self.current_cell = neighbor
 
 

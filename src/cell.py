@@ -100,3 +100,20 @@ class Cell:
         if neighbors:
             return random.choice(neighbors)
         return None
+
+    def remove_wall(self, neighbor: "Cell") -> None:
+        x = self.row - neighbor.row
+        y = self.col - neighbor.col
+
+        if x == 1:
+            self.walls.top = False
+            neighbor.walls.bottom = False
+        elif x == -1:
+            self.walls.bottom = False
+            neighbor.walls.top = False
+        elif y == 1:
+            self.walls.left = False
+            neighbor.walls.right = False
+        elif y == -1:
+            self.walls.right = False
+            neighbor.walls.left = False
