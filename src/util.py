@@ -20,6 +20,7 @@ class Colors:
     GREEN = 30, 255, 20
     BLUE = 100, 0, 255
     YELLOW = 255, 255, 0
+    PURPLE = 155, 50, 200
 
     ColorType = t.Tuple[int, int, int]
 
