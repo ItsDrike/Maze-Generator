@@ -1,9 +1,11 @@
 from contextlib import suppress
+from math import floor
 
 import pygame
 from loguru import logger
 
-from src.config import Window
+from src.cell import Cell
+from src.config import Options, Window
 from src.util import Colors
 
 
@@ -33,6 +35,9 @@ class Game:
         """
         self.screen.fill(Colors.GREY)
 
+        for cell in self.cells:
+            cell.draw()
+
     def update_screen(self, tick: bool = True) -> None:
         """
         Update the screen accordingly to `redraw_screen`
@@ -49,9 +54,17 @@ class Game:
         if tick:
             self.fps_clock.tick(self.tick_rate)
 
-    def main(self) -> None:
+    def main(self, cell_width: int) -> None:
         # Initial setup
         logger.info("Starting game")
+
+        self.cols = floor(self.width / cell_width)
+        self.rows = floor(self.height / cell_width)
+
+        self.cells = []
+        for row in range(self.rows):
+            for col in range(self.cols):
+                self.cells.append(Cell(self.screen, row, col))
 
         # Main game loop
         while self.running:
@@ -61,7 +74,7 @@ class Game:
 game = Game(Window.width, Window.height, Window.tick_rate)
 
 with suppress(KeyboardInterrupt):
-    game.main()
+    game.main(Options.cell_width)
 
 logger.info("Game Stopped")
 pygame.quit()
