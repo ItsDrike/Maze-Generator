@@ -1,6 +1,6 @@
 window:
-    height: 1200
-    width: 900
+    height: 800
+    width: 800
     tick_rate: 100
 
 game:
