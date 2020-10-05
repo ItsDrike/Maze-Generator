@@ -1,9 +1,11 @@
+import math
+import random
 import typing as t
 from dataclasses import dataclass
 
 import pygame
 
-from src.config import Options
+from src.config import Options, Window
 from src.util import Colors
 
 
@@ -16,10 +18,13 @@ class Walls:
 
 
 class Cell:
-    def __init__(self, screen: pygame.Surface, col: int, row: int):
+    total_cols = math.floor(Window.width / Options.cell_width)
+    total_rows = math.floor(Window.height / Options.cell_width)
+
+    def __init__(self, screen: pygame.Surface, row: int, col: int):
         self.screen = screen
-        self.col = col
         self.row = row
+        self.col = col
 
         self.x = self.col * Options.cell_width
         self.y = self.row * Options.cell_width
@@ -67,3 +72,31 @@ class Cell:
                 self.screen, Colors.PURPLE,
                 (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
             )
+
+    @classmethod
+    def get_2d(cls, cells: t.List["Cell"], row: int, col: int) -> t.Optional["Cell"]:
+        if row < 0 or col < 0 or row >= cls.total_rows or col >= cls.total_cols:
+            return None
+        else:
+            return cells[row * cls.total_cols + col]
+
+    def check_neighbors(self, cells: t.List["Cell"]) -> t.Optional["Cell"]:
+        neighbors = []
+
+        top = self.get_2d(cells, self.row, self.col - 1)
+        right = self.get_2d(cells, self.row + 1, self.col)
+        bottom = self.get_2d(cells, self.row, self.col + 1)
+        left = self.get_2d(cells, self.row - 1, self.col)
+
+        if top and not top.visited:
+            neighbors.append(top)
+        if right and not right.visited:
+            neighbors.append(right)
+        if bottom and not bottom.visited:
+            neighbors.append(bottom)
+        if left and not left.visited:
+            neighbors.append(left)
+
+        if neighbors:
+            return random.choice(neighbors)
+        return None

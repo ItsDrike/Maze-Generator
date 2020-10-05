@@ -38,8 +38,6 @@ class Game:
         for cell in self.cells:
             cell.draw()
 
-        self.current_cell.visited = True
-
     def update_screen(self, tick: bool = True) -> None:
         """
         Update the screen accordingly to `redraw_screen`
@@ -68,11 +66,16 @@ class Game:
             for col in range(self.cols):
                 self.cells.append(Cell(self.screen, row, col))
 
-        self.current_cell = self.cells[0]
+        self.current_cell = self.cells[18]
 
         # Main game loop
         while self.running:
             self.update_screen()
+            self.current_cell.visited = True
+            neighbor = self.current_cell.check_neighbors(self.cells)
+            if neighbor:
+                neighbor.visited = True
+                self.current_cell = neighbor
 
 
 game = Game(Window.width, Window.height, Window.tick_rate)
