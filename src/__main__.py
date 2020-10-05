@@ -70,14 +70,22 @@ class Game:
 
         self.current_cell = self.cells[0]
 
+        self.stack = []
+
         # Main game loop
         while self.running:
             self.current_cell.visited = True
             neighbor = self.current_cell.check_neighbors(self.cells)
+
             if neighbor:
                 neighbor.visited = True
+
+                self.stack.append(self.current_cell)
+
                 neighbor.remove_wall(self.current_cell)
                 self.current_cell = neighbor
+            elif len(self.stack) > 0:
+                self.current_cell = self.stack.pop()
 
             self.update_screen()
 
