@@ -61,3 +61,9 @@ class Window(metaclass=YAMLGetter):
     tick_rate: int
     height: int
     width: int
+
+
+class Options(metaclass=YAMLGetter):
+    section = "game"
+
+    cell_width: int

@@ -3,3 +3,5 @@ window:
     width: 900
     tick_rate: 100
 
+game:
+    cell_width: 40
