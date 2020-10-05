@@ -1,9 +1,18 @@
 import typing as t
+from dataclasses import dataclass
 
 import pygame
 
 from src.config import Options
 from src.util import Colors
+
+
+@dataclass
+class Walls:
+    top: bool
+    right: bool
+    bottom: bool
+    left: bool
 
 
 class Cell:
@@ -15,7 +24,9 @@ class Cell:
         self.x = self.col * Options.cell_width
         self.y = self.row * Options.cell_width
 
-    def lines(self, ignore: t.Optional[t.List[str]] = None) -> t.Tuple[(t.Tuple[t.Tuple[int, int]], ) * 4]:
+        self.walls = Walls(True, True, True, True)
+
+    def lines(self) -> t.Tuple[(t.Tuple[t.Tuple[int, int]], ) * 4]:
         """
         Get all lines which should be drawn to make up the cell.
 
@@ -25,22 +36,20 @@ class Cell:
         will ignore both top and right lines on the cell.
         """
         top_line = (self.x, self.y), (self.x + Options.cell_width, self.y)
-        left_line = (self.x, self.y), (self.x, self.y + Options.cell_width)
         right_line = (self.x + Options.cell_width, self.y), (self.x + Options.cell_width, self.y + Options.cell_width)
         bottom_line = (self.x, self.y + Options.cell_width), (self.x + Options.cell_width, self.y + Options.cell_width)
+        left_line = (self.x, self.y), (self.x, self.y + Options.cell_width)
 
-        ret = [top_line, left_line, right_line, bottom_line]
+        ret = [top_line, right_line, bottom_line, left_line]
 
-        if not ignore:
-            return tuple(ret)
-        if "top" in ignore:
+        if not self.walls.top:
             ret.remove(top_line)
-        if "left" in ignore:
-            ret.remove(left_line)
-        if "right" in ignore:
+        if not self.walls.right:
             ret.remove(right_line)
-        if "bottom" in ignore:
+        if not self.walls.bottom:
             ret.remove(bottom_line)
+        if not self.walls.left:
+            ret.remove(left_line)
         return tuple(ret)
 
     def draw(self) -> None:
