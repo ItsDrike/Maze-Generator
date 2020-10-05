@@ -64,18 +64,18 @@ class Cell:
         """Draw individual cell."""
         for line in self.lines:
             pygame.draw.line(
-                self.screen, Colors.WHITE,
-                *line
+                self.screen, Colors.BLACK,
+                *line, 5
             )
         if self.visited:
             pygame.draw.rect(
-                self.screen, Colors.PURPLE,
+                self.screen, Colors.WHITE,
                 (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
             )
 
     def highlight(self) -> None:
         pygame.draw.rect(
-            self.screen, Colors.BLUE,
+            self.screen, Colors.RED,
             (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
         )
 
