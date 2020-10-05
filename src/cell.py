@@ -26,6 +26,8 @@ class Cell:
 
         self.walls = Walls(True, True, True, True)
 
+        self.visited = False
+
     @property
     def lines(self) -> t.Tuple[(t.Tuple[t.Tuple[int, int]], ) * 4]:
         """
@@ -59,4 +61,9 @@ class Cell:
             pygame.draw.line(
                 self.screen, Colors.WHITE,
                 *line
+            )
+        if self.visited:
+            pygame.draw.rect(
+                self.screen, Colors.PURPLE,
+                (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
             )

@@ -38,6 +38,8 @@ class Game:
         for cell in self.cells:
             cell.draw()
 
+        self.current_cell.visited = True
+
     def update_screen(self, tick: bool = True) -> None:
         """
         Update the screen accordingly to `redraw_screen`
@@ -65,6 +67,8 @@ class Game:
         for row in range(self.rows):
             for col in range(self.cols):
                 self.cells.append(Cell(self.screen, row, col))
+
+        self.current_cell = self.cells[0]
 
         # Main game loop
         while self.running:
