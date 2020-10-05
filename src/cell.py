@@ -73,6 +73,12 @@ class Cell:
                 (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
             )
 
+    def highlight(self) -> None:
+        pygame.draw.rect(
+            self.screen, Colors.BLUE,
+            (self.x + 1, self.y + 1, Options.cell_width - 1, Options.cell_width - 1)
+        )
+
     @classmethod
     def get_2d(cls, cells: t.List["Cell"], row: int, col: int) -> t.Optional["Cell"]:
         if row < 0 or col < 0 or row >= cls.total_rows or col >= cls.total_cols:

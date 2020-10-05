@@ -38,6 +38,8 @@ class Game:
         for cell in self.cells:
             cell.draw()
 
+        self.current_cell.highlight()
+
     def update_screen(self, tick: bool = True) -> None:
         """
         Update the screen accordingly to `redraw_screen`
@@ -70,14 +72,14 @@ class Game:
 
         # Main game loop
         while self.running:
-            self.update_screen()
-
             self.current_cell.visited = True
             neighbor = self.current_cell.check_neighbors(self.cells)
             if neighbor:
                 neighbor.visited = True
                 neighbor.remove_wall(self.current_cell)
                 self.current_cell = neighbor
+
+            self.update_screen()
 
 
 game = Game(Window.width, Window.height, Window.tick_rate)
