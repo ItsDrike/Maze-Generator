@@ -26,6 +26,7 @@ class Cell:
 
         self.walls = Walls(True, True, True, True)
 
+    @property
     def lines(self) -> t.Tuple[(t.Tuple[t.Tuple[int, int]], ) * 4]:
         """
         Get all lines which should be drawn to make up the cell.
@@ -54,7 +55,7 @@ class Cell:
 
     def draw(self) -> None:
         """Draw individual cell."""
-        for line in self.lines():
+        for line in self.lines:
             pygame.draw.line(
                 self.screen, Colors.WHITE,
                 *line
