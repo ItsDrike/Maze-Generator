@@ -16,11 +16,14 @@ pre-commit = "~=2.1"
 ipython = "~=7.18.1"
 
 [packages]
-pygame = "~=1.9"
+pygame = "~=2.0.0"
 loguru = "~=0.5.3"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
 
 [scripts]
 start = "python -m src"
